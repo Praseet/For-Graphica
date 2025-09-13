@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOAHEAD - AIT Career Compass</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        /* --- Root Color Palette & Variables --- */
+        :root {
+            --accent-color-1: #2dd4bf; /* Teal */
+            --accent-color-2: #a78bfa; /* Violet */
+            --background-color: #0f172a; /* Slate 900 */
+            --surface-color: #1e293b; /* Slate 800 */
+            --text-color: #f8fafc; /* Slate 50 */
+            --subtle-text-color: #94a3b8; /* Slate 400 */
+            --border-color: #334155; /* Slate 700 */
+        }
+
+        /* --- General Body and Layout --- */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            /* IMPROVED GRADIENT: Added more color stops (deep blue, rich pink) for a richer, more visually dynamic transition */
+            background: linear-gradient(calc(135deg + var(--scroll-pos, 0) * 45deg), 
+                #0f172a, /* Deep Slate */
+                #1e3a8a, /* Darker Blue */
+                var(--accent-color-2), /* Violet */
+                #be185d, /* Rich Pink */
+                var(--accent-color-1) /* Teal */
+            );
+            /* Made the gradient larger for smoother, more subtle color shifts */
+            background-size: 600% 600%;
+            position: relative;
+            /* Made the transition slightly slower for a more fluid feel */
+            transition: background-position 0.6s ease-out;
+        }
+        
+        /* --- Animation for content entry --- */
+        .content-enter {
+            animation: slide-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes slide-in {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* --- Hover animation for titles --- */
+        .title-hover-animate {
+            transition: transform 0.5s ease-in-out, text-shadow 0.5s ease-in-out;
+        }
+        .title-hover-animate:hover {
+            transform: scale(1.03);
+            text-shadow: 0 0 20px rgba(255,255,255,0.2);
+        }
+
+        .primary-button {
+            transition: all 0.3s ease-in-out;
+            background: linear-gradient(135deg, var(--accent-color-1), var(--accent-color-2));
+            color: #0f172a;
+        }
+
+        .primary-button:hover {
+            box-shadow: 0 0 25px rgba(45, 212, 191, 0.5);
+            transform: scale(1.05) translateY(-2px);
+        }
+
+        .custom-input, .custom-select {
+            background-color: var(--background-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .custom-input:focus, .custom-select:focus {
+            outline: none;
+            border-color: var(--accent-color-1);
+            box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.3);
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen relative p-4 sm:p-6 lg:p-8">
+
+    <div id="main-app" class="relative z-10 w-full">
+        
+        <div id="content-area" class="w-full max-w-4xl mx-auto space-y-8 bg-[var(--surface-color)] rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl border border-[var(--border-color)]">
+            <!-- Welcome Screen -->
+            <div id="welcome-screen" class="text-center flex flex-col items-center justify-center py-16">
+                <header class="mb-12">
+                    <p class="text-xl sm:text-2xl text-[var(--subtle-text-color)] font-medium">
+                        <span class="title-hover-animate inline-block">Army Institute of Technology</span> presents
+                    </p>
+                    <h1 class="text-6xl sm:text-7xl lg:text-8xl font-bold text-white leading-tight tracking-tight drop-shadow-lg mt-2 title-hover-animate inline-block">
+                        GOAHEAD
+                    </h1>
+                    <p class="mt-6 text-base sm:text-lg text-[var(--subtle-text-color)] max-w-3xl mx-auto">
+                        A platform designed to empower students by providing a comprehensive analysis of their academic and professional profiles. GOAHEAD helps you benchmark your achievements, discover your competitive edge, and connect with a network of experienced alumni and mentors.
+                    </p>
+                </header>
+                
+                <div class="mt-12 flex justify-center">
+                    <button id="start-btn" class="px-10 py-4 font-bold text-lg rounded-full shadow-xl primary-button">
+                        Let's Begin <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile Form Screen -->
+            <div id="profile-form-screen" class="hidden py-16">
+                <h2 class="text-4xl font-bold text-white mb-8 text-center">Build Your Profile</h2>
+                <form id="profile-form" class="space-y-8">
+                    <!-- Academic Performance -->
+                    <div class="bg-[var(--background-color)] p-6 rounded-xl shadow-inner border border-[var(--border-color)]">
+                        <h3 class="text-2xl font-semibold text-gray-200 mb-6 flex items-center"><i class="fas fa-user-graduate mr-3 text-[var(--accent-color-1)]"></i>Academics</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="cgpa" class="block text-sm font-medium text-[var(--subtle-text-color)]">Current CGPA (out of 10):</label>
+                                <input type="number" id="cgpa" min="0" max="10" step="0.01" class="mt-1 block w-full rounded-md custom-input p-3" placeholder="e.g., 9.25" required>
+                            </div>
+                            <div>
+                                <label for="branch" class="block text-sm font-medium text-[var(--subtle-text-color)]">Select Your Branch:</label>
+                                <select id="branch" class="mt-1 block w-full rounded-md custom-select p-3" required>
+                                    <option value="">- Choose Branch -</option>
+                                    <option value="CE">Computer Engineering (CE)</option>
+                                    <option value="IT">Information Technology (IT)</option>
+                                    <option value="E&TC">Electronics and Telecommunication (E&TC)</option>
+                                    <option value="ARE">Automation and Robotics (ARE)</option>
+                                    <option value="Mech">Mechanical (Mech)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills & Experience -->
+                    <div class="bg-[var(--background-color)] p-6 rounded-xl shadow-inner border border-[var(--border-color)]">
+                        <h3 class="text-2xl font-semibold text-gray-200 mb-6 flex items-center"><i class="fas fa-code mr-3 text-[var(--accent-color-1)]"></i>Core Skills</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="skill-domain" class="block text-sm font-medium text-[var(--subtle-text-color)]">Select Skill Domain:</label>
+                                <select id="skill-domain" class="mt-1 block w-full rounded-md custom-select p-3">
+                                    <option value="">- Choose Domain -</option>
+                                    <option value="languages">Programming Languages</option>
+                                    <option value="frameworks">Web Development Frameworks</option>
+                                    <option value="cloud">Cloud Computing & DevOps</option>
+                                    <option value="data">Data Science & Analytics</option>
+                                    <option value="ml">Machine Learning & AI</option>
+                                    <option value="other">Other Skills</option>
+                                </select>
+                            </div>
+                            <div id="skills-select-container" class="hidden">
+                                <label for="skills" class="block text-sm font-medium text-[var(--subtle-text-color)]">Select Your Skills (Ctrl/Cmd + Click):</label>
+                                <select id="skills" multiple size="5" class="mt-1 block w-full rounded-md custom-select p-2"></select>
+                            </div>
+                        </div>
+                        <div id="selected-skills-container" class="mt-6 space-y-4"></div>
+                    </div>
+
+                    <!-- Projects & Competitions -->
+                    <div class="bg-[var(--background-color)] p-6 rounded-xl shadow-inner border border-[var(--border-color)]">
+                        <h3 class="text-2xl font-semibold text-gray-200 mb-6 flex items-center"><i class="fas fa-trophy mr-3 text-[var(--accent-color-1)]"></i>Projects & Competitions</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div>
+                                <label class="block text-sm font-medium text-[var(--subtle-text-color)] mb-3">Hackathon Placements:</label>
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-3"><input type="checkbox" id="sih" name="sih" class="form-checkbox h-4 w-4 text-[var(--accent-color-1)] rounded bg-gray-800 border-gray-600 focus:ring-0"><label for="sih">Smart India Hackathon (SIH)</label></div>
+                                    <div class="flex items-center space-x-3"><input type="checkbox" name="hackathon_prize" value="5000" class="form-checkbox h-4 w-4 text-[var(--accent-color-1)] rounded bg-gray-800 border-gray-600 focus:ring-0"><label>Prize Pool ₹1k - ₹5k</label></div>
+                                    <div class="flex items-center space-x-3"><input type="checkbox" name="hackathon_prize" value="10000" class="form-checkbox h-4 w-4 text-[var(--accent-color-1)] rounded bg-gray-800 border-gray-600 focus:ring-0"><label>Prize Pool ₹5k - ₹10k</label></div>
+                                    <div class="flex items-center space-x-3"><input type="checkbox" name="hackathon_prize" value="50000" class="form-checkbox h-4 w-4 text-[var(--accent-color-1)] rounded bg-gray-800 border-gray-600 focus:ring-0"><label>Prize Pool ₹10k - ₹50k</label></div>
+                                    <div class="flex items-center space-x-3"><input type="checkbox" name="hackathon_prize" value="100000" class="form-checkbox h-4 w-4 text-[var(--accent-color-1)] rounded bg-gray-800 border-gray-600 focus:ring-0"><label>Prize Pool > ₹50k</label></div>
+                                </div>
+                            </div>
+                            <div class="space-y-6">
+                                <div>
+                                    <label for="internships" class="block text-sm font-medium text-[var(--subtle-text-color)]">Completed Internships:</label>
+                                    <select id="internships" multiple size="5" class="mt-1 block w-full rounded-md custom-select p-2">
+                                        <option value="none">- None -</option>
+                                        <option value="microsoft">Microsoft</option>
+                                        <option value="amazon">Amazon</option>
+                                        <option value="google">Google</option>
+                                        <option value="other_tier1">Other Tier 1 Company</option>
+                                        <option value="startup">Startup</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="projects" class="block text-sm font-medium text-[var(--subtle-text-color)]">Number of Major Projects:</label>
+                                    <input type="number" id="projects" min="0" class="mt-1 block w-full rounded-md custom-input p-3" placeholder="e.g., 3" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center pt-4">
+                        <button type="submit" class="px-10 py-4 font-bold text-lg rounded-full shadow-xl primary-button">
+                            Analyze My Profile <i class="fas fa-chart-pie ml-2"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Analysis & Results Screen -->
+            <div id="analysis-screen" class="hidden py-16">
+                <h2 class="text-4xl font-bold text-white mb-8 text-center">Your Profile Analysis</h2>
+                
+                <div class="flex flex-col items-center justify-center p-8 bg-[var(--background-color)] rounded-2xl shadow-lg border-2 border-[var(--border-color)] mb-8">
+                    <p class="text-xl font-semibold text-[var(--accent-color-1)] tracking-wider">YOUR OVERALL STANDING</p>
+                    <div class="flex items-center space-x-2 mt-2">
+                        <span class="text-7xl font-extrabold text-white" id="talent-score">--</span>
+                        <span class="text-2xl font-semibold text-gray-400">/ 1000</span>
+                    </div>
+                    <p class="mt-4 text-lg text-gray-300 max-w-2xl mx-auto text-center" id="score-description"></p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-[var(--background-color)] p-6 rounded-xl shadow-inner border border-[var(--border-color)]">
+                        <h3 class="text-xl font-semibold text-gray-200 mb-4 flex items-center"><i class="fas fa-chart-line mr-3 text-[var(--accent-color-1)]"></i>Market Trends at AIT</h3>
+                        <p class="text-sm text-gray-400 mb-4">Current market demand for roles related to your branch.</p>
+                        <div class="bg-black/20 p-4 rounded-lg">
+                            <canvas id="market-chart" class="w-full h-48"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-[var(--background-color)] p-6 rounded-xl shadow-inner border border-[var(--border-color)]">
+                        <h3 class="text-xl font-semibold text-gray-200 mb-4 flex items-center"><i class="fas fa-star-of-life mr-3 text-[var(--accent-color-1)]"></i>Personalized Action Plan</h3>
+                        <ul id="action-plan-list" class="list-disc list-inside space-y-3 text-gray-300"></ul>
+                    </div>
+                </div>
+
+                <div class="bg-[var(--background-color)] p-6 rounded-xl shadow-inner border border-[var(--border-color)] mt-8">
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4 flex items-center"><i class="fas fa-handshake mr-3 text-[var(--accent-color-1)]"></i>Your Next Steps</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-200 mb-2">Recommended Mentors</h4>
+                            <ul id="mentors-list" class="space-y-4"></ul>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-200 mb-2">Companies to Prepare For</h4>
+                            <ul id="companies-list" class="space-y-4"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex justify-center">
+                    <button id="restart-btn" class="px-10 py-4 font-bold text-lg rounded-full shadow-lg primary-button bg-gray-600 hover:bg-gray-700">
+                        <i class="fas fa-redo-alt mr-2"></i> Start Over
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modal-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-[var(--surface-color)] rounded-2xl shadow-xl p-8 max-w-sm w-full border border-[var(--accent-color-1)]">
+            <h3 class="text-2xl font-bold text-[var(--accent-color-1)] text-center mb-4">Hold On!</h3>
+            <p id="modal-message" class="text-lg text-gray-300 text-center mb-6">Please fill out all required fields.</p>
+            <button id="modal-close-btn" class="primary-button w-full">Got it</button>
+        </div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Interactive Background ---
+    window.addEventListener('scroll', () => {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        const scrolled = window.scrollY;
+        if (scrollable > 0) {
+            const scrollPercent = scrolled / scrollable;
+            document.body.style.setProperty('--scroll-pos', scrollPercent);
+            document.body.style.backgroundPosition = `${scrollPercent * 100}% 50%`;
+        }
+    });
+
+    // --- DOM Elements ---
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const profileFormScreen = document.getElementById('profile-form-screen');
+    const analysisScreen = document.getElementById('analysis-screen');
+    const startBtn = document.getElementById('start-btn');
+    const restartBtn = document.getElementById('restart-btn');
+    const profileForm = document.getElementById('profile-form');
+    const cgpaInput = document.getElementById('cgpa');
+    const branchSelect = document.getElementById('branch');
+    const skillDomainSelect = document.getElementById('skill-domain');
+    const skillsSelectContainer = document.getElementById('skills-select-container');
+    const skillsSelect = document.getElementById('skills');
+    const selectedSkillsContainer = document.getElementById('selected-skills-container');
+    const hackathonCheckboxes = document.querySelectorAll('input[name="hackathon_prize"]');
+    const sihCheckbox = document.getElementById('sih');
+    const internshipsSelect = document.getElementById('internships');
+    const projectsInput = document.getElementById('projects');
+    const talentScoreDisplay = document.getElementById('talent-score');
+    const scoreDescription = document.getElementById('score-description');
+    const actionPlanList = document.getElementById('action-plan-list');
+    const mentorsList = document.getElementById('mentors-list');
+    const companiesList = document.getElementById('companies-list');
+    const marketChartCanvas = document.getElementById('market-chart');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modalMessage = document.getElementById('modal-message');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+
+    // --- Data Mockups ---
+    const branchSubjects = {
+        'CE': ['Data Structures', 'Algorithms'], 'IT': ['Web Technologies', 'Database Management'],
+        'E&TC': ['Embedded Systems', 'Signal Processing'], 'ARE': ['Robotics', 'Control Systems'],
+        'Mech': ['Thermodynamics', 'Machine Design']
+    };
+    const skillDomains = {
+        languages: ['Python', 'Java', 'C++', 'JavaScript'], frameworks: ['React', 'Spring Boot', 'Django', 'Node.js'],
+        cloud: ['AWS', 'GCP', 'Azure', 'Docker'], data: ['SQL', 'Pandas', 'Tableau', 'Power BI'],
+        ml: ['TensorFlow', 'PyTorch', 'Scikit-learn'], other: ['Git', 'UI/UX Design', 'Cybersecurity']
+    };
+    const mentorsData = {
+        'CE': [{ name: 'Dr. Jane Smith', title: 'Senior SDE, Google', batch: '2015' }],
+        'IT': [{ name: 'Mr. Rohan Sharma', title: 'Full-Stack Dev, Amazon', batch: '2018' }],
+        'E&TC': [{ name: 'Mr. Alok Patel', title: 'Embedded Engineer, Qualcomm', batch: '2014' }],
+        'ARE': [{ name: 'Dr. Vikram Varma', title: 'Robotics Specialist, DRDO', batch: '2023' }],
+        'Mech': [{ name: 'Mr. Siddharth Rao', title: 'Design Engineer, L&T', batch: '2013' }]
+    };
+    const companiesData = [
+        { name: 'Microsoft', note: 'High packages for CE/IT. Focus on DSA.' },
+        { name: 'Google', note: 'Strong problem-solving and project diversity.' },
+        { name: 'Amazon', note: 'Recruits heavily for SDE roles from CE/IT.' },
+        { name: 'ZS Associates', note: 'Hires from all branches. Focus on analytics.' },
+    ];
+    let marketChartInstance = null;
+
+    // --- Functions ---
+    function showScreen(screenId) {
+        [welcomeScreen, profileFormScreen, analysisScreen].forEach(screen => screen.classList.add('hidden'));
+        const screenToShow = document.getElementById(screenId);
+        screenToShow.classList.remove('hidden');
+        screenToShow.classList.remove('content-enter');
+        void screenToShow.offsetWidth; 
+        screenToShow.classList.add('content-enter');
+    }
+    
+    function populateSkillOptions(domain) {
+        skillsSelect.innerHTML = '';
+        const skills = skillDomains[domain];
+        if (!skills) {
+            skillsSelectContainer.classList.add('hidden');
+            return;
+        }
+        skills.forEach(skill => {
+            const option = document.createElement('option');
+            option.value = skill.toLowerCase().replace(/\s+/g, '_');
+            option.textContent = skill;
+            skillsSelect.appendChild(option);
+        });
+        skillsSelectContainer.classList.remove('hidden');
+    }
+    
+    function updateSelectedSkillsDisplay() {
+        const selectedOptions = Array.from(skillsSelect.selectedOptions);
+        selectedSkillsContainer.innerHTML = ''; 
+        if(selectedOptions.length === 0) return;
+        selectedOptions.forEach(option => {
+            const div = document.createElement('div');
+            div.className = 'bg-black/20 p-4 rounded-lg flex items-center space-x-4';
+            div.innerHTML = `
+                <p class="text-sm font-semibold text-gray-300 w-1/3">${option.textContent}</p>
+                <input type="text" data-skill="${option.value}" class="custom-input w-2/3 p-2 text-sm" placeholder="Describe your proficiency or a related project.">
+            `;
+            selectedSkillsContainer.appendChild(div);
+        });
+    }
+
+    function showModal(message) {
+        modalMessage.textContent = message;
+        modalOverlay.classList.remove('hidden');
+    }
+
+    function hideModal() {
+        modalOverlay.classList.add('hidden');
+    }
+    
+    function drawMarketChart(branch) {
+        const ctx = marketChartCanvas.getContext('2d');
+        if (marketChartInstance) marketChartInstance.destroy();
+        const dataMap = {
+            'CE': { labels: ['Software Dev', 'AI/ML', 'Cloud'], data: [95, 92, 88] },
+            'IT': { labels: ['Web Dev', 'Data Science', 'Cybersecurity'], data: [90, 85, 80] },
+            'E&TC': { labels: ['Embedded', 'IoT', 'Core E&TC'], data: [75, 70, 65] },
+            'ARE': { labels: ['Robotics', 'AI', 'Control Sys.'], data: [80, 88, 75] },
+            'Mech': { labels: ['Automotive', 'R&D', 'Manufacturing'], data: [60, 70, 55] },
+        };
+        const chartData = dataMap[branch] || { labels: [], data: [] };
+        marketChartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chartData.labels,
+                datasets: [{
+                    label: 'Market Demand %',
+                    data: chartData.data,
+                    backgroundColor: 'rgba(45, 212, 191, 0.6)',
+                    borderColor: 'rgba(45, 212, 191, 1)',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: { duration: 1000, easing: 'easeOutQuart' },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        ticks: { color: 'var(--subtle-text-color)', font: { family: "'Inter', sans-serif" } }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: 'var(--subtle-text-color)', font: { family: "'Inter', sans-serif" } }
+                    }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+    }
+
+    startBtn.addEventListener('click', () => showScreen('profile-form-screen'));
+    
+    restartBtn.addEventListener('click', () => {
+        profileForm.reset();
+        selectedSkillsContainer.innerHTML = '';
+        skillsSelectContainer.classList.add('hidden');
+        if (marketChartInstance) {
+            marketChartInstance.destroy();
+            marketChartInstance = null;
+        }
+        showScreen('welcome-screen');
+    });
+
+    skillDomainSelect.addEventListener('change', (event) => {
+        populateSkillOptions(event.target.value);
+        updateSelectedSkillsDisplay();
+    });
+
+    skillsSelect.addEventListener('change', updateSelectedSkillsDisplay);
+    
+    profileForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const cgpa = parseFloat(cgpaInput.value);
+        const projects = parseInt(projectsInput.value);
+        const branch = branchSelect.value;
+        const skills = Array.from(skillsSelect.selectedOptions);
+        if (isNaN(cgpa) || isNaN(projects) || !branch || skills.length === 0) {
+            showModal('Please fill out CGPA, branch, projects, and select at least one skill.');
+            return;
+        }
+
+        const internships = Array.from(internshipsSelect.selectedOptions).map(opt => opt.value);
+        const hackathons = Array.from(hackathonCheckboxes).filter(cb => cb.checked).map(cb => parseInt(cb.value) || 0);
+        let hackathonScore = sihCheckbox.checked ? 100 : 0;
+        hackathons.forEach(prize => { hackathonScore += prize / 1000; });
+        let internshipScore = internships.includes('none') ? 0 : internships.length * 30;
+        if (internships.some(i => ['microsoft', 'google', 'amazon'].includes(i))) internshipScore += 50;
+        const finalScore = Math.min(1000, (cgpa * 60) + (projects * 20) + hackathonScore + internshipScore + (skills.length * 20));
+        talentScoreDisplay.textContent = Math.round(finalScore);
+
+        let description = '';
+        let actionPlan = [];
+        const branchName = branchSelect.options[branchSelect.selectedIndex].textContent;
+
+        if (finalScore >= 850) {
+            description = `Exceptional! As a ${branchName} student, your profile is highly competitive.`;
+            actionPlan.push("Contribute to Open-Source to build a public portfolio.");
+            actionPlan.push("Actively network with AIT alumni on LinkedIn for career advice.");
+        } else if (finalScore >= 700) {
+            description = `Very Strong! Your profile is well-rounded for a ${branchName} student.`;
+            actionPlan.push("Master a niche skill like Cloud Computing or Data Analytics.");
+            actionPlan.push("Build a comprehensive project demonstrating your ability to create a product.");
+        } else if (finalScore >= 500) {
+            description = "Great potential! Your profile has a solid foundation. Let's get you placement-ready.";
+            actionPlan.push(`Improve grades in core subjects like ${branchSubjects[branch][0]} and ${branchSubjects[branch][1]}.`);
+            actionPlan.push("Actively apply for internships to gain industry exposure.");
+        } else {
+            description = "Promising start! Here’s how you can build a strong foundation.";
+            actionPlan.push("Master the fundamentals of your branch. A strong core is key.");
+            actionPlan.push("Aim for a CGPA above 7.5 to improve eligibility.");
+        }
+        
+        scoreDescription.textContent = description;
+        actionPlanList.innerHTML = actionPlan.map(plan => `<li>${plan}</li>`).join('');
+        
+        const recommendedMentors = mentorsData[branch] || [];
+        mentorsList.innerHTML = recommendedMentors.length > 0
+            ? recommendedMentors.map(mentor => `
+                <li class="bg-black/20 p-3 rounded-lg border border-[var(--border-color)]">
+                    <p class="font-bold text-white">${mentor.name}</p>
+                    <p class="text-sm text-gray-300">${mentor.title}</p>
+                    <p class="text-xs text-gray-500">Alumni Batch of ${mentor.batch}</p>
+                </li>`).join('')
+            : '<p class="text-sm text-gray-400">Reach out to AIT\'s alumni network.</p>';
+
+        companiesList.innerHTML = companiesData.map(company => `
+            <li class="bg-black/20 p-3 rounded-lg border border-[var(--border-color)]">
+                <p class="font-bold text-white">${company.name}</p>
+                <p class="text-sm text-gray-400 mt-1">${company.note}</p>
+            </li>`).join('');
+        
+        showScreen('analysis-screen');
+        drawMarketChart(branch);
+    });
+
+    modalCloseBtn.addEventListener('click', hideModal);
+
+    showScreen('welcome-screen');
+});
+</script>
+
+</body>
+</html>
+
+
