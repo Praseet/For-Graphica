@@ -9,21 +9,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-        --accent-color: #FBBF24; /* Amber/Gold */
-        --background-color: #111827; /* Dark Slate Blue */
-        --surface-color: #1F2937; /* Lighter Slate Blue */
-        --text-color: #F9FAFB; /* Off-white */
-        --subtle-text-color: #9CA3AF; /* Light Gray */
+        --accent-color: #FBBF24; 
+        --background-color: #111827; 
+        --surface-color: #1F2937; 
+        --text-color: #F9FAFB; 
+        --subtle-text-color: #9CA3AF; 
         --border-color: rgba(251, 191, 36, 0.2);
     }
 
-    /* --- Keyframes for Animations --- */
+   
     @keyframes fadeInSlideUp {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
     }
 
-    /* --- General Body and Layout --- */
+    
     body { 
         font-family: 'Inter', sans-serif; 
         margin: 0; 
@@ -33,7 +33,7 @@
         overflow-x: hidden;
     }
 
-    /* --- Header & Navigation --- */
+   
     header { 
         padding: 60px 20px; 
         text-align: center;
@@ -71,7 +71,7 @@
         color: var(--accent-color); 
     }
 
-    /* --- Main Content Grid --- */
+  
     #mainGrid {
         display: grid;
         grid-template-columns: repeat(12, 1fr);
@@ -88,7 +88,6 @@
         opacity: 0; /* For load-in animation */
         animation: fadeInSlideUp 0.7s both cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
-    /* Grid placement */
     #roadmap { grid-column: span 12; }
     #academics { grid-column: span 12; }
     #profiles { grid-column: span 12; }
@@ -243,7 +242,6 @@
         transform: translateY(-2px);
     }
 
-    /* --- NEW/UPDATED Registration Form Styling --- */
     .form-container input, .form-container textarea {
         background: #111827;
         border: 1px solid #374151;
@@ -626,7 +624,6 @@
 
       let avatarUrl = user.photoData;
       if (!avatarUrl) {
-          // Fallback to Pravatar if no photo is provided
           const imgId = user.userId.replace(/[^0-9]/g, '') % 70; // Generate a consistent ID for avatar
           avatarUrl = `https://i.pravatar.cc/150?img=${imgId}`;
       }
