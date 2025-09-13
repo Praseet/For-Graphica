@@ -1,1 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIT Mentorship Program</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+        --accent-color: #FBBF24; /* Amber/Gold */
+        --background-color: #111827; /* Dark Slate Blue */
+        --surface-color: #1F2937; /* Lighter Slate Blue */
+        --text-color: #F9FAFB; /* Off-white */
+        --subtle-text-color: #9CA3AF; /* Light Gray */
+        --border-color: rgba(251, 191, 36, 0.2);
+    }
+    @keyframes fadeInSlideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    body { 
+        font-family: 'Inter', sans-serif; 
+        margin: 0; 
+        padding: 0; 
+        background-color: var(--background-color); 
+        color: var(--text-color);
+        overflow-x: hidden;
+    }
+    header { 
+        padding: 60px 20px; 
+        text-align: center;
+        animation: fadeInSlideUp 0.7s 0.2s both cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    header h1 {
+        font-weight: 700;
+        font-size: 3em;
+        margin: 0 0 20px 0;
+        color: var(--text-color);
+    }
+    main {
+        max-width: 1400px;
+        margin: auto;
+        padding: 40px;
+    }
+    section { 
+        background: var(--surface-color);
+        padding: 30px; 
+        border-radius: 16px;
+        border: 1px solid #374151;
+        animation: fadeInSlideUp 0.7s 0.4s both cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    h2 { 
+        color: var(--text-color); 
+        border-bottom: 2px solid var(--accent-color);
+        padding-bottom: 10px;
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-weight: 700;
+        font-size: 1.8em;
+    }
+    .card { 
+        background: #374151; 
+        border-radius: 12px; 
+        padding: 20px; 
+        margin: 10px 0; 
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+        cursor: pointer; 
+        border: 1px solid #4B5563;
+        position: relative;
+        overflow: hidden;
+    }
+    .card h3 {
+        margin: 0;
+        padding: 0;
+        font-size: 1.1em;
+    }
+    .expandable-content {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out, opacity 0.4s ease-out, margin-top 0.5s ease-out;
+        margin-top: 0;
+        font-size: 0.95em;
+        color: var(--subtle-text-color);
+        line-height: 1.6;
+    }
+    .card:hover .expandable-content {
+        max-height: 100px;
+        opacity: 1;
+        margin-top: 15px;
+    }
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgba(251, 191, 36, 0.25), rgba(245, 158, 11, 0.15), transparent 80%);
+        opacity: 0;
+        transition: opacity 0.4s ease-out;
+    }
+    .card:hover::before { opacity: 1; }
+    .card:hover { 
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        border-color: var(--border-color);
+    }
+    .mentor-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+    .profile-details {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(17, 24, 39, 0.9);
+        backdrop-filter: blur(10px);
+        z-index: 2000;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        animation: fadeInSlideUp 0.5s both;
+        overflow-y: auto;
+    }
+    .profile-details-content {
+        background: var(--surface-color);
+        padding: 40px;
+        border-radius: 16px;
+        border: 1px solid #374151;
+        max-width: 600px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        margin: 20px;
+    }
+    .profile-details img {
+        width: 120px; height: 120px;
+        border-radius: 50%;
+        border: 3px solid var(--accent-color);
+        object-fit: cover;
+    }
+    .back-btn {
+        background: var(--accent-color);
+        color: var(--background-color);
+        border: 2px solid var(--accent-color);
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        font-size: 1em;
+        text-decoration: none;
+    }
+    .back-btn:hover {
+        background: #F59E0B;
+        transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
 
+  <main id="mainContent">
+    <header>
+      <h1>AIT Mentorship Program</h1>
+      <a href="index.html" class="back-btn" style="background: transparent; color: var(--subtle-text-color); border-color: #374151;">⬅ Back to Hub</a>
+    </header>
+
+    <section id="mentorship">
+        <h2>Find Your Mentor 🤝</h2>
+        <div class="mentor-grid">
+            <div class="card" onclick="openProfile('mentor1')">
+                <h3>Anjali Singh</h3>
+                <div class="expandable-content">AI/ML Specialist at Google. Passionate about guiding the next generation of tech leaders.</div>
+            </div>
+            <div class="card" onclick="openProfile('mentor2')">
+                <h3>Vikram Rathore</h3>
+                <div class="expandable-content">Principal Software Engineer at Microsoft. Expert in distributed systems and cloud architecture.</div>
+            </div>
+            <div class="card" onclick="openProfile('mentor3')">
+                <h3>Sameer Khan</h3>
+                <div class="expandable-content">Cybersecurity Lead at a top fintech firm. Specializes in ethical hacking and threat intelligence.</div>
+            </div>
+            <div class="card" onclick="openProfile('mentor4')">
+                <h3>Riya Sharma</h3>
+                <div class="expandable-content">Senior DevOps Engineer at Amazon. Focuses on CI/CD pipelines and infrastructure automation.</div>
+            </div>
+        </div>
+    </section>
+  </main>
+
+  <!-- Mentor Modals -->
+  <div id="mentor1" class="profile-details">
+    <div class="profile-details-content">
+        <img src="https://i.pravatar.cc/150?img=35" alt="Anjali Singh">
+        <h2>Anjali Singh</h2>
+        <p><b>Expertise:</b> AI/ML Specialist</p>
+        <p><b>Experience:</b> 8+ years building large-scale machine learning systems at Google. Specializes in Natural Language Processing and Deep Learning.</p>
+        <p><b>Skills:</b> Python, TensorFlow, PyTorch, GCP</p>
+        <button class="back-btn" onclick="alert('Your mentorship request has been sent to Anjali!')">Request Mentorship</button>
+        <button class="back-btn" onclick="goBack()" style="background: transparent; color: var(--subtle-text-color); border-color: #374151; margin-left:10px;">Back</button>
+    </div>
+  </div>
+  <div id="mentor2" class="profile-details">
+      <div class="profile-details-content">
+          <img src="https://i.pravatar.cc/150?img=68" alt="Vikram Rathore">
+          <h2>Vikram Rathore</h2>
+          <p><b>Expertise:</b> Principal Software Engineer</p>
+          <p><b>Experience:</b> 12 years at Microsoft, leading teams to develop scalable cloud services on Azure. Strong background in C# and .NET.</p>
+          <p><b>Skills:</b> C#, .NET, Azure, Microservices, Kubernetes</p>
+          <button class="back-btn" onclick="alert('Your mentorship request has been sent to Vikram!')">Request Mentorship</button>
+          <button class="back-btn" onclick="goBack()" style="background: transparent; color: var(--subtle-text-color); border-color: #374151; margin-left:10px;">Back</button>
+      </div>
+  </div>
+  <div id="mentor3" class="profile-details">
+      <div class="profile-details-content">
+          <img src="https://i.pravatar.cc/150?img=60" alt="Sameer Khan">
+          <h2>Sameer Khan</h2>
+          <p><b>Expertise:</b> Cybersecurity Lead</p>
+          <p><b>Experience:</b> 7 years in cybersecurity. Defended against major cyber threats and implemented robust security protocols for financial institutions.</p>
+          <p><b>Skills:</b> Penetration Testing, Wireshark, Metasploit, Network Security</p>
+          <button class="back-btn" onclick="alert('Your mentorship request has been sent to Sameer!')">Request Mentorship</button>
+          <button class="back-btn" onclick="goBack()" style="background: transparent; color: var(--subtle-text-color); border-color: #374151; margin-left:10px;">Back</button>
+      </div>
+  </div>
+  <div id="mentor4" class="profile-details">
+      <div class="profile-details-content">
+          <img src="https://i.pravatar.cc/150?img=40" alt="Riya Sharma">
+          <h2>Riya Sharma</h2>
+          <p><b>Expertise:</b> Senior DevOps Engineer</p>
+          <p><b>Experience:</b> 6 years at Amazon, automating deployment pipelines and managing cloud infrastructure on AWS. Passionate about efficient and reliable systems.</p>
+          <p><b>Skills:</b> AWS, Docker, Jenkins, Terraform, Ansible</p>
+          <button class="back-btn" onclick="alert('Your mentorship request has been sent to Riya!')">Request Mentorship</button>
+          <button class="back-btn" onclick="goBack()" style="background: transparent; color: var(--subtle-text-color); border-color: #374151; margin-left:10px;">Back</button>
+      </div>
+  </div>
+
+  <script>
+    function openProfile(id) {
+        document.getElementById('mainContent').style.transition = 'filter 0.4s ease';
+        document.getElementById('mainContent').style.filter = 'blur(10px) brightness(0.7)';
+        const profilePage = document.getElementById(id);
+        if(profilePage) profilePage.style.display = 'flex';
+    }
+
+    function goBack() {
+        document.getElementById('mainContent').style.filter = 'none';
+        document.querySelectorAll(".profile-details").forEach(el => el.style.display = "none");
+    }
+
+    document.getElementById('mentorship').addEventListener('mousemove', e => {
+        const card = e.target.closest('.card');
+        if (card) {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        }
+    });
+  </script>
+</body>
+</html>
