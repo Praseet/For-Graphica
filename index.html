@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIT Career Development Hub</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f7fb; color: #333; }
+    header { background: linear-gradient(135deg, #2a5298, #1e3c72); color: white; padding: 20px; text-align: center; }
+    nav { background: #111; padding: 10px; text-align: center; position: sticky; top: 0; z-index: 1000; }
+    nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
+    nav a:hover { color: #f4d03f; }
+    section { padding: 40px; max-width: 1000px; margin: auto; }
+    h2 { color: #1e3c72; margin-bottom: 20px; }
+    .card { background: white; border-radius: 12px; padding: 20px; margin: 15px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; cursor:pointer; }
+    .card:hover { transform: translateY(-5px); background:#f0f4ff; }
+    #profiles, #userList { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+    .profile-details { display:none; padding:40px; max-width:900px; margin:auto; background:white; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.15);}
+    .profile-details h2 { color:#2a5298; }
+    .profile-details img { width:120px; border-radius:50%; margin-bottom:15px; }
+    .profile-details p { line-height:1.6; }
+    .back-btn { background:#2a5298; color:white; border:none; padding:10px 15px; border-radius:8px; margin-top:20px; cursor:pointer; font-weight:bold; }
+    .back-btn:hover { background:#1e3c72; }
+    html { scroll-behavior: smooth; }
+    footer { background:#1e3c72; color:white; text-align:center; padding:15px; margin-top:30px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Army Institute of Technology</h1>
+    <p>Career Development Hub 🚀</p>
+  </header>
+
+  <nav>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#profiles">Profiles</a>
+    <a href="#register">Register</a>
+    <a href="#compass">Career Compass</a>
+    <a href="#academics">Academics</a>
+    <a href="#articles">Articles</a>
+  </nav>
+
+  <!-- Roadmap -->
+  <section id="roadmap">
+    <h2>Career Development Roadmap</h2>
+    <div class="card">Phase 1: Foundations – Programming, DSA, Git, Databases</div>
+    <div class="card">Phase 2: Specialization – Choose Dev, Data, or Product</div>
+    <div class="card">Phase 3: Growth – Projects, Networking, Interview Prep</div>
+  </section>
+
+  <!-- Profiles -->
+  <section id="profiles">
+    <h2>Senior Profiles</h2>
+    <div class="card" onclick="openProfile('p1')">Rohit Sharma (2022) – Skills: Python, React ⭐⭐⭐⭐</div>
+    <div class="card" onclick="openProfile('p2')">Priya Deshmukh (2023) – Skills: Data Science, Tableau ⭐⭐⭐⭐⭐</div>
+    <div class="card" onclick="openProfile('p3')">Aman Verma (2021) – Skills: DevOps, AWS ⭐⭐⭐⭐</div>
+    <div class="card" onclick="openProfile('p4')">Neha Kulkarni (2024) – Skills: Cybersecurity, C++ ⭐⭐⭐⭐</div>
+    <div class="card" onclick="openProfile('p5')">Aditya Patil (2023) – Skills: AI/ML, TensorFlow ⭐⭐⭐⭐⭐</div>
+  </section>
+
+  <!-- Hidden Profile Pages -->
+  <div id="p1" class="profile-details">
+    <img src="https://i.pravatar.cc/150?img=1" alt="Rohit Sharma">
+    <h2>Rohit Sharma (2022)</h2>
+    <p><b>Skills:</b> Python, React</p>
+    <p><b>Achievements:</b> Built AI chatbot for startups that now serves 10,000+ users.</p>
+    <p><b>About:</b> Rohit is a passionate software developer who loves solving real-world problems through code. He mentors juniors in full-stack development and contributes to open-source projects.</p>
+    <p><b>Hobbies:</b> Cricket, Reading Tech Blogs</p>
+    <button class="back-btn" onclick="goBack()">⬅ Back</button>
+  </div>
+
+  <div id="p2" class="profile-details">
+    <img src="https://i.pravatar.cc/150?img=5" alt="Priya Deshmukh">
+    <h2>Priya Deshmukh (2023)</h2>
+    <p><b>Skills:</b> Data Science, Tableau</p>
+    <p><b>Achievements:</b> Published ML paper in IEEE on predictive healthcare analytics.</p>
+    <p><b>About:</b> Priya is passionate about turning raw data into meaningful insights. She has worked on projects involving big data visualization and predictive modeling for social good.</p>
+    <p><b>Hobbies:</b> Painting, Traveling</p>
+    <button class="back-btn" onclick="goBack()">⬅ Back</button>
+  </div>
+
+  <div id="p3" class="profile-details">
+    <img src="https://i.pravatar.cc/150?img=8" alt="Aman Verma">
+    <h2>Aman Verma (2021)</h2>
+    <p><b>Skills:</b> DevOps, AWS</p>
+    <p><b>Achievements:</b> Deployed 20+ production servers ensuring 99.9% uptime.</p>
+    <p><b>About:</b> Aman is a cloud enthusiast and infrastructure engineer. He specializes in automating workflows and building scalable, reliable systems for enterprise-level applications.</p>
+    <p><b>Hobbies:</b> Football, Gaming</p>
+    <button class="back-btn" onclick="goBack()">⬅ Back</button>
+  </div>
+
+  <div id="p4" class="profile-details">
+    <img src="https://i.pravatar.cc/150?img=12" alt="Neha Kulkarni">
+    <h2>Neha Kulkarni (2024)</h2>
+    <p><b>Skills:</b> Cybersecurity, C++</p>
+    <p><b>Achievements:</b> National Hackathon Winner for creating a secure payment gateway prototype.</p>
+    <p><b>About:</b> Neha is deeply interested in ethical hacking and penetration testing. She aims to work in digital forensics and cybersecurity research to make the web a safer place.</p>
+    <p><b>Hobbies:</b> Ethical Hacking, Music</p>
+    <button class="back-btn" onclick="goBack()">⬅ Back</button>
+  </div>
+
+  <div id="p5" class="profile-details">
+    <img src="https://i.pravatar.cc/150?img=15" alt="Aditya Patil">
+    <h2>Aditya Patil (2023)</h2>
+    <p><b>Skills:</b> AI/ML, TensorFlow</p>
+    <p><b>Achievements:</b> Research Internship at Google on NLP-based chatbots.</p>
+    <p><b>About:</b> Aditya loves experimenting with deep learning and artificial intelligence. His dream is to build AI systems that enhance human productivity and creativity.</p>
+    <p><b>Hobbies:</b> Chess, Blogging</p>
+    <button class="back-btn" onclick="goBack()">⬅ Back</button>
+  </div>
+
+  <!-- Registration -->
+  <section id="register">
+    <h2>Register New User</h2>
+    <div class="form-container">
+      <input type="text" id="name" placeholder="Enter your name">
+      <input type="number" id="age" placeholder="Enter your age">
+      <input type="text" id="skills" placeholder="Your technical skills">
+      <textarea id="achievements" placeholder="Your achievements"></textarea>
+      <textarea id="hobbies" placeholder="Your hobbies"></textarea>
+      <button onclick="registerUser()">Register</button>
+    </div>
+    <div id="userList"></div>
+  </section>
+
+  <!-- Compass -->
+  <section id="compass">
+    <h2>Career Compass</h2>
+    <a href="https://www.sciencedirect.com/science/article/pii/S1877050920304231" target="_blank" style="text-decoration:none;">
+      <div class="card">⭐ AI-based Career Rating (Click to Explore Research)</div>
+    </a>
+    <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/what-2024-means-for-ai-and-the-world-of-work" target="_blank" style="text-decoration:none;">
+      <div class="card">📊 Market Insights (AI & Jobs Report)</div>
+    </a>
+    <a href="https://scholarships.gov.in/" target="_blank" style="text-decoration:none;">
+      <div class="card">🎓 Scholarships (Govt. of India Portal)</div>
+    </a>
+    <a href="https://mentorship.opencollective.com/" target="_blank" style="text-decoration:none;">
+      <div class="card">👩‍🏫 Mentorship Programs (Global Platform)</div>
+    </a>
+    <div class="card">✅ Personalized Action Plan</div>
+  </section>
+
+  <!-- Academics -->
+  <section id="academics">
+    <h2>Academics</h2>
+    <div class="card">📘 Curriculum: CSE, IT, ENTC, Mechanical</div>
+    <div class="card">🏆 Achievements: Hackathons, Research Papers, Placements</div>
+    <div class="card">🔗 Resources: NPTEL, Coursera, IEEE Access</div>
+    <div class="card">🧪 Labs: AI-ML Lab, Robotics Lab, Cloud Lab</div>
+  </section>
+
+  <!-- Articles -->
+  <section id="articles">
+    <h2>Articles & Insights</h2>
+    <div class="card">🚀 How AI is Transforming Careers</div>
+    <div class="card">💡 Top 5 Skills Employers Look for in 2025</div>
+    <div class="card">📈 The Rise of Data-Driven Decision Making</div>
+    <div class="card">🌍 Building Global Careers from AIT</div>
+  </section>
+
+  <footer>
+    <p>© 2025 Army Institute of Technology | Career Development Hub</p>
+  </footer>
+
+  <script>
+    // Load saved users
+    window.onload = function() {
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      users.forEach(u => addUserToDOM(u));
+    };
+
+    function registerUser() {
+      let name = document.getElementById('name').value;
+      let age = document.getElementById('age').value;
+      let skills = document.getElementById('skills').value;
+      let achievements = document.getElementById('achievements').value;
+      let hobbies = document.getElementById('hobbies').value;
+      let userId = "AIT" + Math.floor(Math.random() * 10000);
+
+      if (!name || !age || !skills) {
+        alert("Please fill at least Name, Age, and Skills!");
+        return;
+      }
+
+      let user = { name, age, skills, achievements, hobbies, userId };
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      users.push(user);
+      localStorage.setItem('users', JSON.stringify(users));
+
+      addUserToDOM(user);
+
+      // Reset form fields
+      document.getElementById('name').value = '';
+      document.getElementById('age').value = '';
+      document.getElementById('skills').value = '';
+      document.getElementById('achievements').value = '';
+      document.getElementById('hobbies').value = '';
+    }
+
+    function addUserToDOM(user) {
+      let userDiv = document.createElement('div');
+      userDiv.className = 'card';
+      userDiv.innerHTML = ${user.name} (ID: ${user.userId}) – Skills: ${user.skills};
+      document.getElementById('userList').appendChild(userDiv);
+    }
+
+    function openProfile(id) {
+      document.querySelectorAll("section, footer, .profile-details").forEach(el => el.style.display = "none");
+      document.getElementById(id).style.display = "block";
+    }
+
+    function goBack() {
+      document.querySelectorAll("section, footer").forEach(el => el.style.display = "block");
+      document.querySelectorAll(".profile-details").forEach(el => el.style.display = "none");
+      window.scrollTo({top: document.getElementById("profiles").offsetTop, behavior: 'smooth'});
+    }
+  </script>
+</body>
+</html>
