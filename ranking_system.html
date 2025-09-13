@@ -4,49 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GOAHEAD - AIT Career Compass</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        /* --- Root Color Palette & Variables --- */
         :root {
-            --accent-color-1: #2dd4bf; /* Teal */
-            --accent-color-2: #a78bfa; /* Violet */
-            --background-color: #0f172a; /* Slate 900 */
-            --surface-color: #1e293b; /* Slate 800 */
-            --text-color: #f8fafc; /* Slate 50 */
-            --subtle-text-color: #94a3b8; /* Slate 400 */
-            --border-color: #334155; /* Slate 700 */
+            --accent-color-1: #2dd4bf; 
+            --accent-color-2: #a78bfa;
+            --background-color: #0f172a; 
+            --surface-color: #1e293b; 
+            --text-color: #f8fafc; 
+            --subtle-text-color: #94a3b8; 
+            --border-color: #334155;
         }
 
-        /* --- General Body and Layout --- */
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--background-color);
             color: var(--text-color);
-            /* IMPROVED GRADIENT: Added more color stops (deep blue, rich pink) for a richer, more visually dynamic transition */
             background: linear-gradient(calc(135deg + var(--scroll-pos, 0) * 45deg), 
-                #0f172a, /* Deep Slate */
-                #1e3a8a, /* Darker Blue */
-                var(--accent-color-2), /* Violet */
-                #be185d, /* Rich Pink */
-                var(--accent-color-1) /* Teal */
+                #0f172a,
+                #1e3a8a, 
+                var(--accent-color-2),
+                #be185d, 
+                var(--accent-color-1) 
             );
-            /* Made the gradient larger for smoother, more subtle color shifts */
             background-size: 600% 600%;
             position: relative;
-            /* Made the transition slightly slower for a more fluid feel */
             transition: background-position 0.6s ease-out;
         }
         
-        /* --- Animation for content entry --- */
         .content-enter {
             animation: slide-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
@@ -62,7 +52,6 @@
             }
         }
 
-        /* --- Hover animation for titles --- */
         .title-hover-animate {
             transition: transform 0.5s ease-in-out, text-shadow 0.5s ease-in-out;
         }
@@ -101,7 +90,6 @@
     <div id="main-app" class="relative z-10 w-full">
         
         <div id="content-area" class="w-full max-w-4xl mx-auto space-y-8 bg-[var(--surface-color)] rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl border border-[var(--border-color)]">
-            <!-- Welcome Screen -->
             <div id="welcome-screen" class="text-center flex flex-col items-center justify-center py-16">
                 <header class="mb-12">
                     <p class="text-xl sm:text-2xl text-[var(--subtle-text-color)] font-medium">
@@ -122,11 +110,9 @@
                 </div>
             </div>
 
-            <!-- Profile Form Screen -->
             <div id="profile-form-screen" class="hidden py-16">
                 <h2 class="text-4xl font-bold text-white mb-8 text-center">Build Your Profile</h2>
                 <form id="profile-form" class="space-y-8">
-                    <!-- Academic Performance -->
                     <div class="bg-[var(--background-color)] p-6 rounded-xl shadow-inner border border-[var(--border-color)]">
                         <h3 class="text-2xl font-semibold text-gray-200 mb-6 flex items-center"><i class="fas fa-user-graduate mr-3 text-[var(--accent-color-1)]"></i>Academics</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -148,7 +134,6 @@
                         </div>
                     </div>
 
-                    <!-- Skills & Experience -->
                     <div class="bg-[var(--background-color)] p-6 rounded-xl shadow-inner border border-[var(--border-color)]">
                         <h3 class="text-2xl font-semibold text-gray-200 mb-6 flex items-center"><i class="fas fa-code mr-3 text-[var(--accent-color-1)]"></i>Core Skills</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -172,7 +157,6 @@
                         <div id="selected-skills-container" class="mt-6 space-y-4"></div>
                     </div>
 
-                    <!-- Projects & Competitions -->
                     <div class="bg-[var(--background-color)] p-6 rounded-xl shadow-inner border border-[var(--border-color)]">
                         <h3 class="text-2xl font-semibold text-gray-200 mb-6 flex items-center"><i class="fas fa-trophy mr-3 text-[var(--accent-color-1)]"></i>Projects & Competitions</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -214,7 +198,6 @@
                 </form>
             </div>
 
-            <!-- Analysis & Results Screen -->
             <div id="analysis-screen" class="hidden py-16">
                 <h2 class="text-4xl font-bold text-white mb-8 text-center">Your Profile Analysis</h2>
                 
@@ -275,7 +258,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Interactive Background ---
     window.addEventListener('scroll', () => {
         const scrollable = document.documentElement.scrollHeight - window.innerHeight;
         const scrolled = window.scrollY;
@@ -286,7 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- DOM Elements ---
     const welcomeScreen = document.getElementById('welcome-screen');
     const profileFormScreen = document.getElementById('profile-form-screen');
     const analysisScreen = document.getElementById('analysis-screen');
@@ -313,7 +294,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalMessage = document.getElementById('modal-message');
     const modalCloseBtn = document.getElementById('modal-close-btn');
 
-    // --- Data Mockups ---
     const branchSubjects = {
         'CE': ['Data Structures', 'Algorithms'], 'IT': ['Web Technologies', 'Database Management'],
         'E&TC': ['Embedded Systems', 'Signal Processing'], 'ARE': ['Robotics', 'Control Systems'],
@@ -339,7 +319,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     let marketChartInstance = null;
 
-    // --- Functions ---
     function showScreen(screenId) {
         [welcomeScreen, profileFormScreen, analysisScreen].forEach(screen => screen.classList.add('hidden'));
         const screenToShow = document.getElementById(screenId);
